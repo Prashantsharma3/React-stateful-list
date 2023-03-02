@@ -1,5 +1,4 @@
-import React from 'react'
-
+import React, { useState } from 'react';
 import '../styles/App.css';
 
 const data = {
@@ -26,14 +25,31 @@ const data = {
     'Adventures of Shaktiman'
   ]
 }
+
 const App = () => {
+  const [selectedYear, setSelectedYear] = useState(null);
+
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  }
+
+  const movieList = selectedYear ? (
+    <ul>
+      {data[selectedYear].map(movie => <li key={movie}>{movie}</li>)}
+    </ul>
+  ) : null;
 
   return (
     <div id="main">
-      
+      <select onChange={handleYearChange}>
+        <option value={null}>No year selected</option>
+        {Object.keys(data).map(year => <option key={year} value={year}>{year}</option>)}
+      </select>
+      <div id="selected-year">{selectedYear ? `Selected year-${selectedYear}` : 'No year selected'}</div>
+      {movieList}
     </div>
-  )
+  );
 }
 
-
 export default App;
+
